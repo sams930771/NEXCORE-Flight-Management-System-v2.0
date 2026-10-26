@@ -1,0 +1,285 @@
+========================================
+NEXCORE TECHNOLOGIES
+PERIPHERAL DIAGNOSTICS REPORT V3.0
+========================================
+
+COMPUTER ID: 0
+COMPUTER LABEL: NONE
+MINECRAFT TIME: 0.862
+TOTAL PERIPHERALS: 18
+
+PERIPHERAL SUMMARY
+----------------------------------------
+01 | Create_SequencedGearshift_1 | Create_SequencedGearshift
+02 | aeronautics:adjustable_burner_2 | aeronautics:adjustable_burner
+03 | aeronautics:adjustable_burner_3 | aeronautics:adjustable_burner
+04 | aeronautics:adjustable_burner_4 | aeronautics:adjustable_burner
+05 | aeronautics:adjustable_burner_5 | aeronautics:adjustable_burner
+06 | aeronautics:propeller_bearing_1 | aeronautics:propeller_bearing
+07 | aeronautics:propeller_bearing_2 | aeronautics:propeller_bearing
+08 | aeronautics:propeller_bearing_3 | aeronautics:propeller_bearing
+09 | aeronautics:propeller_bearing_4 | aeronautics:propeller_bearing
+10 | back | altitude_sensor
+11 | bottom | modem
+12 | left | modem
+13 | monitor_0 | monitor
+14 | navigation_table_1 | navigation_table
+15 | swivel_bearing_1 | swivel_bearing
+16 | top | modem
+17 | velocity_sensor_1 | velocity_sensor
+18 | velocity_sensor_2 | velocity_sensor
+
+========================================
+DETAILED PERIPHERAL INFORMATION
+========================================
+
+----------------------------------------
+DEVICE #1
+----------------------------------------
+NAME: Create_SequencedGearshift_1
+TYPE: Create_SequencedGearshift
+METHOD COUNT: 3
+
+AVAILABLE METHODS:
+  01. isRunning
+  02. move
+  03. rotate
+
+----------------------------------------
+DEVICE #2
+----------------------------------------
+NAME: aeronautics:adjustable_burner_2
+TYPE: aeronautics:adjustable_burner
+METHOD COUNT: 2
+
+AVAILABLE METHODS:
+  01. getScrollValue
+  02. setScrollValue
+
+----------------------------------------
+DEVICE #3
+----------------------------------------
+NAME: aeronautics:adjustable_burner_3
+TYPE: aeronautics:adjustable_burner
+METHOD COUNT: 2
+
+AVAILABLE METHODS:
+  01. getScrollValue
+  02. setScrollValue
+
+----------------------------------------
+DEVICE #4
+----------------------------------------
+NAME: aeronautics:adjustable_burner_4
+TYPE: aeronautics:adjustable_burner
+METHOD COUNT: 2
+
+AVAILABLE METHODS:
+  01. getScrollValue
+  02. setScrollValue
+
+----------------------------------------
+DEVICE #5
+----------------------------------------
+NAME: aeronautics:adjustable_burner_5
+TYPE: aeronautics:adjustable_burner
+METHOD COUNT: 2
+
+AVAILABLE METHODS:
+  01. getScrollValue
+  02. setScrollValue
+
+----------------------------------------
+DEVICE #6
+----------------------------------------
+NAME: aeronautics:propeller_bearing_1
+TYPE: aeronautics:propeller_bearing
+METHOD COUNT: 2
+
+AVAILABLE METHODS:
+  01. getScrollValue
+  02. setScrollValue
+
+----------------------------------------
+DEVICE #7
+----------------------------------------
+NAME: aeronautics:propeller_bearing_2
+TYPE: aeronautics:propeller_bearing
+METHOD COUNT: 2
+
+AVAILABLE METHODS:
+  01. getScrollValue
+  02. setScrollValue
+
+----------------------------------------
+DEVICE #8
+----------------------------------------
+NAME: aeronautics:propeller_bearing_3
+TYPE: aeronautics:propeller_bearing
+METHOD COUNT: 2
+
+AVAILABLE METHODS:
+  01. getScrollValue
+  02. setScrollValue
+
+----------------------------------------
+DEVICE #9
+----------------------------------------
+NAME: aeronautics:propeller_bearing_4
+TYPE: aeronautics:propeller_bearing
+METHOD COUNT: 2
+
+AVAILABLE METHODS:
+  01. getScrollValue
+  02. setScrollValue
+
+----------------------------------------
+DEVICE #10
+----------------------------------------
+NAME: back
+TYPE: altitude_sensor
+METHOD COUNT: 2
+
+AVAILABLE METHODS:
+  01. getAirPressure
+  02. getHeight
+
+----------------------------------------
+DEVICE #11
+----------------------------------------
+NAME: bottom
+TYPE: modem
+METHOD COUNT: 13
+
+AVAILABLE METHODS:
+  01. callRemote
+  02. close
+  03. closeAll
+  04. getMethodsRemote
+  05. getNameLocal
+  06. getNamesRemote
+  07. getTypeRemote
+  08. hasTypeRemote
+  09. isOpen
+  10. isPresentRemote
+  11. isWireless
+  12. open
+  13. transmit
+
+----------------------------------------
+DEVICE #12
+----------------------------------------
+NAME: left
+TYPE: modem
+METHOD COUNT: 6
+
+AVAILABLE METHODS:
+  01. close
+  02. closeAll
+  03. isOpen
+  04. isWireless
+  05. open
+  06. transmit
+
+----------------------------------------
+DEVICE #13
+----------------------------------------
+NAME: monitor_0
+TYPE: monitor
+METHOD COUNT: 26
+
+AVAILABLE METHODS:
+  01. blit
+  02. clear
+  03. clearLine
+  04. getBackgroundColor
+  05. getBackgroundColour
+  06. getCursorBlink
+  07. getCursorPos
+  08. getPaletteColor
+  09. getPaletteColour
+  10. getSize
+  11. getTextColor
+  12. getTextColour
+  13. getTextScale
+  14. isColor
+  15. isColour
+  16. scroll
+  17. setBackgroundColor
+  18. setBackgroundColour
+  19. setCursorBlink
+  20. setCursorPos
+  21. setPaletteColor
+  22. setPaletteColour
+  23. setTextColor
+  24. setTextColour
+  25. setTextScale
+  26. write
+
+----------------------------------------
+DEVICE #14
+----------------------------------------
+NAME: navigation_table_1
+TYPE: navigation_table
+METHOD COUNT: 2
+
+AVAILABLE METHODS:
+  01. getRelativeAngle
+  02. getRelativeAngleRad
+
+----------------------------------------
+DEVICE #15
+----------------------------------------
+NAME: swivel_bearing_1
+TYPE: swivel_bearing
+METHOD COUNT: 2
+
+AVAILABLE METHODS:
+  01. getTargetAngle
+  02. getTargetAngleRad
+
+----------------------------------------
+DEVICE #16
+----------------------------------------
+NAME: top
+TYPE: modem
+METHOD COUNT: 13
+
+AVAILABLE METHODS:
+  01. callRemote
+  02. close
+  03. closeAll
+  04. getMethodsRemote
+  05. getNameLocal
+  06. getNamesRemote
+  07. getTypeRemote
+  08. hasTypeRemote
+  09. isOpen
+  10. isPresentRemote
+  11. isWireless
+  12. open
+  13. transmit
+
+----------------------------------------
+DEVICE #17
+----------------------------------------
+NAME: velocity_sensor_1
+TYPE: velocity_sensor
+METHOD COUNT: 1
+
+AVAILABLE METHODS:
+  01. getVelocity
+
+----------------------------------------
+DEVICE #18
+----------------------------------------
+NAME: velocity_sensor_2
+TYPE: velocity_sensor
+METHOD COUNT: 1
+
+AVAILABLE METHODS:
+  01. getVelocity
+
+========================================
+END OF NEXCORE DIAGNOSTICS REPORT
+========================================

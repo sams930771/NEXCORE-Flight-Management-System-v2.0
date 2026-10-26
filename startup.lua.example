@@ -1,0 +1,4 @@
+-- Optional startup.lua content after installation and successful bench tests.
+-- OBSERVE only on boot, even when calibration flags are true.
+shell.setDir("/nexcore_fms")
+shell.run("fms.lua")
