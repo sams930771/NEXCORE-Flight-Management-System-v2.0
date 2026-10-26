@@ -1,93 +1,41 @@
--- NEXCORE FMS 2.0 installer for CC:Tweaked.
--- Upload this file to the ROOT of your GitHub repository.
--- Usage: install [branch] [repository-subfolder]
--- Examples: install main   OR   install main NEXCORE
--- No startup file is changed and no downloaded program is executed.
-local args={...}
-local branch=args[1] or "main"
-local subfolder=args[2] or ""
-local repository="sams930771/NEXCORE-Flight-Management-System-v2.0"
-local destination="/nexcore_fms"
-local staging="/nexcore_fms.download"
-local files={
-  "fms.lua", "calibrate.lua", "audit.lua", "selftest.lua",
-  "nexcore/config.lua", "nexcore/core.lua", "nexcore/hardware.lua",
-  "nexcore/commands.lua", "nexcore/ui.lua", "nexcore/validate.lua",
-}
-local function validPath(value)
-  if value:find("..",1,true) or value:find("//",1,true) then return false end
-  return value:match("^[%w_./%-]*$")~=nil
+-- Upload install.lua to the repository root.
+-- install ship [branch] [folder]   OR   install pocket [branch] [folder]
+local args={...};local role=args[1] or "ship";local branch=args[2] or "main";local folder=args[3] or ""
+-- Preserve the older `install main` invocation as a ship install.
+if role~="ship" and role~="pocket" then folder=args[2] or "";branch=role;role="ship" end
+local repo="sams930771/NEXCORE-Flight-Management-System-v2.0"
+local destination="/nexcore_fms_ap";local staging=destination..".download"
+local files=role=="pocket" and {"pocket.lua","nexcore/ap/math.lua","nexcore/ap/protocol.lua"} or {
+ "ship.lua","setup_ship.lua","autopilot_test.lua","nexcore/ap/math.lua",
+ "nexcore/ap/hardware.lua","nexcore/ap/protocol.lua","nexcore/ap/settings.lua","nexcore/ap/runtime.lua"}
+local function valid(s) return s:match("^[%w_./%-]*$") and not s:find("..",1,true) and not s:find("//",1,true) end
+assert(valid(branch) and branch~="" and valid(folder),"Invalid branch/folder")
+folder=folder:gsub("^/+",""):gsub("/+$","")
+local base="https://raw.githubusercontent.com/"..repo.."/"..branch.."/"..(folder~="" and folder.."/" or "")
+if not http or not http.get then error("HTTP unavailable",0) end
+if fs.exists(destination) or fs.exists(staging) then
+ print("Installation/staging folder already exists. Nothing overwritten.")
+ print("Preserve your ship_settings.txt or pocket_settings.txt before an upgrade.")
+ print("Inspect/rename existing "..destination.." and "..staging.." before retrying.")
+ return
 end
-assert(validPath(branch) and branch~="","Invalid branch name")
-assert(validPath(subfolder),"Invalid repository subfolder")
-subfolder=subfolder:gsub("^/+",""):gsub("/+$","")
-local base="https://raw.githubusercontent.com/"..repository.."/"..branch.."/"
-if subfolder~="" then base=base..subfolder.."/" end
-if not http or not http.get then error("HTTP is disabled or unavailable on this computer",0) end
-if fs.exists(destination) then
-  print("Installation folder already exists: "..destination)
-  print("Nothing changed. Back up/rename that folder before installing again.")
-  print("Your configuration and hover calibration records must be preserved.")
-  return
-end
-if fs.exists(staging) then
-  print("A previous download folder exists: "..staging)
-  print("Nothing changed. Inspect/rename it, then run this installer again.")
-  return
-end
-print("NEXCORE FMS 2.0 installer")
-print("Source: "..repository.." / "..branch)
-if subfolder~="" then print("Repository folder: "..subfolder) end
-print("Downloading "..#files.." files. Flight controls will remain inactive.")
 fs.makeDir(staging)
-local function download(path,index)
-  print("["..index.."/"..#files.."] "..path)
-  local url=base..path
-  -- Request a response handle even for HTTP errors, so it can be closed.
-  local response,err,errorResponse=http.get(url,nil,false)
-  if not response then
-    if errorResponse then pcall(function() errorResponse.close() end) end
-    error("Download failed: "..path.."\n"..tostring(err).."\nURL: "..url,0)
-  end
-  local ok,body=pcall(function()
-    local code=response.getResponseCode()
-    if code~=200 then error("HTTP "..tostring(code)) end
-    return response.readAll()
-  end)
+local ok,why=pcall(function()
+ for i,path in ipairs(files) do
+  print("["..i.."/"..#files.."] "..path)
+  local response,err,errorResponse=http.get(base..path,nil,false)
+  if not response then if errorResponse then pcall(function() errorResponse.close() end) end;error(path..": "..tostring(err),0) end
+  local good,body=pcall(function() assert(response.getResponseCode()==200,"HTTP error");return response.readAll() end)
   pcall(function() response.close() end)
-  if not ok then error("Could not read "..path..": "..tostring(body),0) end
-  if type(body)~="string" or #body==0 then error("Empty download: "..path,0) end
-  -- This checks syntax only: downloaded code is NEVER executed by this installer.
-  local fn,syntax=load(body,"@"..path,"t",{})
-  if not fn then error("Invalid Lua in "..path..": "..tostring(syntax),0) end
-  local target=fs.combine(staging,path)
-  fs.makeDir(fs.getDir(target))
-  local handle=assert(fs.open(target,"w"),"Cannot save "..path)
-  local written,writeError=pcall(function() handle.write(body) end)
-  pcall(function() handle.close() end)
-  if not written then error("Could not save "..path..": "..tostring(writeError),0) end
-end
-local ok,err=pcall(function()
-  for i,path in ipairs(files) do download(path,i) end
-  -- Publish only after all required files have downloaded and parsed.
-  -- Refuse to replace a folder created while the download was in progress.
-  if fs.exists(destination) then error("Installation folder appeared during download; refusing to overwrite it",0) end
-  fs.move(staging,destination)
+  assert(good and type(body)=="string" and #body>0,"Download/read failed: "..path)
+  local parsed,syntax=load(body,"@"..path,"t",{});assert(parsed,path..": "..tostring(syntax))
+  local target=fs.combine(staging,path);fs.makeDir(fs.getDir(target));local f=assert(fs.open(target,"w"))
+  local written,err=pcall(function() f.write(body) end);f.close();assert(written,err)
+ end
+ assert(not fs.exists(destination),"Destination appeared during download")
+ fs.move(staging,destination)
 end)
-if not ok then
-  printError(tostring(err))
-  print("Installation did not complete. No flight program was started.")
-  print("Partial files are retained in "..staging.." for inspection.")
-  print("For a 404: check branch, public access, and extracted repository files.")
-  print("If files are inside NEXCORE/, use: install "..branch.." NEXCORE")
-  return
-end
-print("")
-print("Installed successfully: "..destination)
-print("Startup unchanged. No peripheral outputs were activated.")
-print("Next, stop any existing flight program and enter:")
-print("  cd "..destination)
-print("  selftest")
-print("  audit read")
-print("  calibrate")
-print("Use validated burner integer limits for the calibration test.")
+if not ok then printError(tostring(why));print("Incomplete download retained in "..staging);return end
+print("Installed "..role.." in "..destination..". No flight code executed; startup unchanged.")
+print("cd "..destination)
+if role=="ship" then print("autopilot_test");print("setup_ship");print("setup_ship heading");print("ship") else print("pocket") end
